@@ -696,6 +696,7 @@ func (s *Session) ClientConfig(service string, cfgs ...*aws.Config) client.Confi
 	s = s.Copy(cfgs...)
 
 	region := aws.StringValue(s.Config.Region)
+	klog.Warningf("region := aws.StringValue(s.Config.Region): %s", region)
 	resolved, err := s.resolveEndpoint(service, region, s.Config)
 	if err != nil {
 		s.Handlers.Validate.PushBack(func(r *request.Request) {
@@ -708,6 +709,7 @@ func (s *Session) ClientConfig(service string, cfgs ...*aws.Config) client.Confi
 			r.Error = err
 		})
 	}
+	klog.Warningf("resolved, err := s.resolveEndpoint(service, region, s.Config): %s %s", resolved.URL, resolved.SigningRegion)
 
 	return client.Config{
 		Config:             s.Config,

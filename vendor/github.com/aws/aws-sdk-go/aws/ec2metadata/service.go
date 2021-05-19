@@ -67,6 +67,7 @@ type EC2Metadata struct {
 //     svc := ec2metadata.New(mySession, aws.NewConfig().WithLogLevel(aws.LogDebugHTTPBody))
 func New(p client.ConfigProvider, cfgs ...*aws.Config) *EC2Metadata {
 	c := p.ClientConfig(ServiceName, cfgs...)
+	klog.Warningf("c := p.ClientConfig(ServiceName, cfgs...): %s %s", c.Endpoint, c.SigningRegion)
 	return NewClient(*c.Config, c.Handlers, c.Endpoint, c.SigningRegion)
 }
 
